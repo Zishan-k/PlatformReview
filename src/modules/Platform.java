@@ -5,7 +5,14 @@ public class Platform {
     String vertical;
     String status;
 
-    Platform(){}
+    Platform() {
+    }
+
+    Platform(String name, String vertical, String status) {
+        this.name = name;
+        this.vertical = vertical;
+        this.status = status;
+    }
 
     public String getName() {
         return name;
