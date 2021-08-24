@@ -1,4 +1,4 @@
-package modules;
+package modules.user;
 
 public interface UserType {
     String one = "VIEWER";

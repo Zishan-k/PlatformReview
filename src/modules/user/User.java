@@ -1,4 +1,6 @@
-package modules;
+package modules.user;
+
+import modules.platform.Platform;
 
 import java.util.HashSet;
 

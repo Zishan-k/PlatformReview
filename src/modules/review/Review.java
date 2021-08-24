@@ -1,6 +1,8 @@
-package modules;
+package modules.review;
 
 import exceptions.WrongRatingException;
+import modules.platform.Platform;
+import modules.user.User;
 
 public class Review {
     private static final int MAX_RATING = 5;

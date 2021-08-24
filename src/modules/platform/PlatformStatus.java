@@ -1,4 +1,4 @@
-package modules;
+package modules.platform;
 
 public enum PlatformStatus {
     RELEASED,

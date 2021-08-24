@@ -1,5 +1,5 @@
-import modules.Platform;
-import modules.User;
+import modules.platform.Platform;
+import modules.user.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
