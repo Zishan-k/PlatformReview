@@ -3,16 +3,17 @@ package modules;
 import java.util.HashSet;
 
 public class User implements UserType {
-    String name;
-    String type = viewer;
-    Rating reviewRating;
-    HashSet<Platform> reviewedPlatforms;
+    private String name;
+    private String type;
+    private int noOfReviews;
+    private HashSet<Platform> reviewedPlatforms;
 
     User() {
     }
 
     User(String name) {
         this.name = name;
+        this.type = one;
     }
 
     public String getName() {
@@ -34,5 +35,14 @@ public class User implements UserType {
     public void addReviewedPlatform(Platform platform) {
         if (reviewedPlatforms == null) reviewedPlatforms = new HashSet<>();
         reviewedPlatforms.add(platform);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", reviewedPlatforms=" + reviewedPlatforms +
+                '}';
     }
 }

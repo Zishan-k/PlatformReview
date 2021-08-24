@@ -1,8 +1,8 @@
 package modules;
 
 public interface UserType {
-    String viewer = "VIEWER";
-    String critic = "CRITIC";
-    String expert = "EXPERT";
-    String admin = "ADMIN";
+    String one = "VIEWER";
+    String two = "CRITIC";
+    String three = "EXPERT";
+    String four = "ADMIN";
 }

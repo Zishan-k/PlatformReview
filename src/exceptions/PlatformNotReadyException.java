@@ -1,6 +1,6 @@
 package exceptions;
 
-public class PlatformNotReadyException {
+public class PlatformNotReadyException extends Exception{
     String message;
 
     public PlatformNotReadyException(String message) {
