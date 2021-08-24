@@ -1,21 +1,21 @@
 package modules.platform;
 
+import constants.PlatformStatus;
+import modules.review.Review;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Platform {
     private String name;
     private String vertical;
     private String status;
-    private int totalReviews;
-    private int avgReview;
+    private List<Review> reviews;
 
-    Platform() {
-    }
-
-    public Platform(String name, String vertical, String status, int totalReviews, int avgReview) {
+    public Platform(String name, String vertical, String status) {
         this.name = name;
         this.vertical = vertical;
         this.status = status;
-        this.totalReviews = totalReviews;
-        this.avgReview = avgReview;
     }
 
     public String getName() {
@@ -42,20 +42,13 @@ public class Platform {
         this.status = status;
     }
 
-    public int getTotalReviews() {
-        return totalReviews;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public void setTotalReviews(int totalReviews) {
-        this.totalReviews = totalReviews;
-    }
-
-    public int getAvgReview() {
-        return avgReview;
-    }
-
-    public void setAvgReview(int avgReview) {
-        this.avgReview = avgReview;
+    public void addReviews(Review review) {
+        if (reviews == null) reviews = new ArrayList<>();
+        this.reviews.add(review);
     }
 
     @Override
@@ -64,6 +57,6 @@ public class Platform {
                 "name='" + name + '\'' +
                 ", vertical='" + vertical + '\'' +
                 ", status='" + status + '\'' +
-                '}';
+                '}' + '\n';
     }
 }

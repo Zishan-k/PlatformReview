@@ -1,9 +1,9 @@
 package exceptions;
 
-public class MultipleReviewsException extends Exception {
+public class PlatformNotReadyException extends RuntimeException{
     String message;
 
-    public MultipleReviewsException(String message) {
+    public PlatformNotReadyException(String message) {
         this.message = message;
     }
 
