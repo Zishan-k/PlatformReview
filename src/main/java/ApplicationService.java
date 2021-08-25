@@ -5,56 +5,59 @@ import modules.review.Review;
 import modules.user.User;
 import constants.UserType;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static util.MyUtil.*;
 import static constants.UserType.*;
 
 public class ApplicationService {
     private Map<String, Integer> userVsRatingCount;
-    private Map<Platform, Platform> platforms;
-    private Map<User, User> users;
-    private Map<Review, Review> reviews;
+    private Set<Platform> platforms;
+    private Set<User> users;
+    private Set<Review> reviews;
 
     public boolean addPlatform(String pfName, String vertical, String platformStatus) {
-        if (platforms == null) platforms = new HashMap<>();
+        if (platforms == null) platforms = new HashSet<>();
         if (!isPlatformAlreadyAdded(platforms, pfName) && (!pfName.equals("") || !vertical.equals("") || !platformStatus.equals(""))) {
-            Platform temp = new Platform(pfName, vertical, platformStatus);
-            platforms.put(temp, temp);
+            Platform temp = Platform.builder()
+                    .name(pfName)
+                    .vertical(vertical)
+                    .status(platformStatus).build();
+            platforms.add(temp);
             return true;
         }
         return false;
     }
 
     public void addUser(String uName) {
-        if (users == null) users = new HashMap<>();
+        if (users == null) users = new HashSet<>();
         if (!isUserAlreadyAdded(users, uName) && !uName.equals("")) {
             User temp = new User(uName);
-            users.put(temp, temp);
+            users.add(temp);
         }
     }
 
     public void addReview(String uName, String pfName, int rating)
             throws MultipleReviewsException, PlatformNotReadyException {
-        if (reviews == null) reviews = new HashMap<>();
-        User userObj = getUserObject(users, uName);
-        Platform pfObj = getPlatformObject(platforms, pfName);
-        if (userObj == null || pfObj == null) {
-            System.out.println("User or platform not available!!");
-        } else if (pfObj.getStatus().equals(PlatformStatus.NOT_RELEASED.toString())) {
-            throw new PlatformNotReadyException("Platform yet to be released!");
-        } else {
-            if (Objects.equals(userObj.getType(), CRITIC)) rating *= CRITIC_VALUE;
-            Review review = new Review(uName, pfName, rating);
-            if (!isReviewAlreadyAdded(reviews, review)) {
-                reviews.put(review, review);
-                pfObj.addReviews(review);
-                userObj.addReviewedPlatform(pfObj);
-                promoteUser(userObj);
+        if (!uName.equals("") || !pfName.equals("") || !isRatingValid(rating)) {
+            if (reviews == null) reviews = new HashSet<>();
+            User userObj = getUserObject(users, uName);
+            Platform pfObj = getPlatformObject(platforms, pfName);
+            if (userObj == null || pfObj == null) {
+                System.out.println("User or platform not available!!");
+            } else if (pfObj.getStatus().equals(PlatformStatus.NOT_RELEASED.toString())) {
+                throw new PlatformNotReadyException("Platform yet to be released!");
             } else {
-                throw new MultipleReviewsException("Multiple reviews not allowed!");
+                if (Objects.equals(userObj.getType(), CRITIC)) rating *= CRITIC_VALUE;
+                Review review = new Review(uName, pfName, rating);
+                if (!isReviewAlreadyAdded(reviews, review)) {
+                    reviews.add(review);
+                    pfObj.setReview(review);
+                    userObj.addReviewedPlatform(pfObj);
+                    promoteUser(userObj);
+                } else {
+                    throw new MultipleReviewsException("Multiple reviews not allowed!");
+                }
             }
         }
     }
@@ -64,31 +67,34 @@ public class ApplicationService {
             userObj.setType(UserType.CRITIC);
     }
 
-    public Map<Platform, Platform> getTopPlatformsRatedBy(String userType) {
+    public Set<Platform> getTopPlatformsRatedBy(String userType) {
         return platforms;//todo
     }
 
-    public Map<Platform, Platform> getAllPlatforms() {
+    public Set<Platform> getAllPlatforms() {
         return platforms;
     }
 
-    public Map<User, User> getAllUsers() {
+    public Set<User> getAllUsers() {
         return users;
     }
 
-    public Map<Review, Review> getAllReviews() {
+    public Set<Review> getAllReviews() {
         return reviews;
     }
 
     public float getAvgRatingOf(String platform) {
         int temp = 0, count = 0;
         Platform pfObj = getPlatformObject(platforms, platform);
-        assert pfObj != null;
-        for (Review review : pfObj.getReviews()) {
+        for (Review review : Objects.requireNonNull(pfObj).getReviews()) {
             temp += review.getRating();
             count++;
         }
         count = (count == 0) ? 1 : count;
         return (float) temp / count;
+    }
+
+    public List<Review> getAllReviewsOfPlatform(String platform) {
+        return Objects.requireNonNull(getPlatformObject(platforms, platform)).getReviews();
     }
 }

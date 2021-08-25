@@ -7,10 +7,11 @@ public class Application {
         as.addPlatform("jjj","qq", PlatformStatus.RELEASED.toString());
         as.addPlatform("kkk","qq", PlatformStatus.RELEASED.toString());
         as.addPlatform("lll","qq", PlatformStatus.RELEASED.toString());
-
+        System.out.println(as.getAllPlatforms());
         as.addUser("zishan");
         as.addUser("zaky");
         as.addUser("zishan");
+        System.out.println(as.getAllUsers());
         as.addPlatform("mmm","jkd", PlatformStatus.NOT_RELEASED.toString());
         try {
             as.addReview("zishan", "jjj", 5);
@@ -22,6 +23,7 @@ public class Application {
         } catch (MultipleReviewsException e){
             e.printMessage();
         }
+        System.out.println(as.getAllPlatforms());
         System.out.println(as.getAvgRatingOf("jjj"));
     }
 }

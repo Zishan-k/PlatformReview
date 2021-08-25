@@ -5,6 +5,7 @@ import lombok.Data;
 import modules.platform.Platform;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 @Data
 public class User {
@@ -17,29 +18,21 @@ public class User {
         this.type = UserType.VIEWER;
     }
 
-    /*public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public HashSet<Platform> getReviewedPlatforms() {
-        return reviewedPlatforms;
-    }*/
-
     public void addReviewedPlatform(Platform platform) {
         if (reviewedPlatforms == null) reviewedPlatforms = new HashSet<>();
         reviewedPlatforms.add(platform);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getName().equals(user.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
 }

@@ -1,56 +1,36 @@
 package modules.platform;
 
-import constants.PlatformStatus;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import modules.review.Review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
-public class Platform {
+@Builder
+public class Platform{
     private String name;
     private String vertical;
     private String status;
     private List<Review> reviews;
 
-    public Platform(String name, String vertical, String status) {
-        this.name = name;
-        this.vertical = vertical;
-        this.status = status;
-    }
-    /*
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVertical() {
-        return vertical;
-    }
-
-    public void setVertical(String vertical) {
-        this.vertical = vertical;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-*/
-    public void addReviews(Review review) {
+    public void setReview(Review review) {
         if (reviews == null) reviews = new ArrayList<>();
         this.reviews.add(review);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Platform)) return false;
+        Platform platform = (Platform) o;
+        return getName().equals(platform.getName()) && getVertical().equals(platform.getVertical());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getVertical());
     }
 }

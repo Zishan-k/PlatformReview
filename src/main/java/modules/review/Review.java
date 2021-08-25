@@ -17,30 +17,9 @@ public class Review {
     private String platformName;
     private int rating;
 
-    public String getUsername() {
-        return userName;
-    }
-
-    public void setUsername(String user) {
-        this.userName = user;
-    }
-
-    public String getPlatformName() {
-        return platformName;
-    }
-
-    public void setPlatformName(String platformName) {
-        this.platformName = platformName;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
     public void setRating(int rating) {
-        if (rating > MAX_RATING || rating < MIN_RATING) {
-            System.out.println("Rating must be between 1 and 5");
-        } else this.rating = rating;
+        if (rating < MAX_RATING || rating > MIN_RATING)
+            this.rating = rating;
     }
 
     @Override
@@ -48,13 +27,13 @@ public class Review {
         if (this == o) return true;
         if (!(o instanceof Review)) return false;
         Review review = (Review) o;
-        return this.getUsername().equals(review.getUsername()) &&
-                this.getPlatformName().equals(review.getPlatformName());
+        return this.userName.equals(review.userName) &&
+                this.platformName.equals(review.platformName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getPlatformName());
+        return Objects.hash(this.userName, this.platformName);
     }
 
     @Override
