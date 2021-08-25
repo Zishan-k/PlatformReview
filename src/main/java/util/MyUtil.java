@@ -1,22 +1,20 @@
 package util;
 
+import constants.PlatformStatus;
 import constants.ReviewConstants;
+import constants.UserType;
 import modules.platform.Platform;
 import modules.review.Review;
 import modules.user.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class MyUtil {
-    //todo
-/*    public <T> boolean isAlreadyAdded(Set<T> set, String name){
-        for (T temp : set) {
-            temp.
-        }
-    }*/
-    public static boolean isPlatformAlreadyAdded(Set<Platform> platformSet, String name) {
+    public static boolean isPlatformAlreadyAdded(Set<Platform> platformSet, String name, String vertical) {
         for (Platform temp : platformSet) {
-            if (temp.getName().equals(name)) return true;
+            if (temp.getName().equals(name) && temp.getVertical().equals(vertical)) return true;
         }
         return false;
     }
@@ -49,8 +47,29 @@ public class MyUtil {
         return null;
     }
 
-    public static boolean isRatingValid(int rating){
+    public static boolean isRatingValid(int rating) {
         return rating > ReviewConstants.MIN_RATING && rating < ReviewConstants.MAX_RATING;
+    }
+
+    public static boolean isPlatformReleased(Platform pfObj) {
+        return pfObj.getStatus().equals(PlatformStatus.RELEASED.toString());
+    }
+
+    public static void promoteUserIfNeeded(User userObj) {
+        if (userObj.getReviewedPlatforms().size() >= UserType.CRITIC_THRESHOLD)
+            userObj.setType(UserType.CRITIC);
+    }
+
+    public static int sumList(List<Integer> list){
+        int sum = 0;
+        for(int i : list) sum+=i;
+        return sum;
+    }
+
+    public static List<Integer> getOnlyRatings(List<Review> reviews){
+        List<Integer> listOfRatings = new ArrayList<>();
+        for(Review r: reviews) listOfRatings.add(r.getRating());
+        return listOfRatings;
     }
 
 }

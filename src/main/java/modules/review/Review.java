@@ -18,7 +18,7 @@ public class Review {
     private int rating;
 
     public void setRating(int rating) {
-        if (rating < MAX_RATING || rating > MIN_RATING)
+        if (rating > MIN_RATING && rating < MAX_RATING)
             this.rating = rating;
     }
 
