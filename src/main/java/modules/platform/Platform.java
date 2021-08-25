@@ -1,11 +1,14 @@
 package modules.platform;
 
 import constants.PlatformStatus;
+import lombok.Data;
+import lombok.Getter;
 import modules.review.Review;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class Platform {
     private String name;
     private String vertical;
@@ -17,7 +20,7 @@ public class Platform {
         this.vertical = vertical;
         this.status = status;
     }
-
+    /*
     public String getName() {
         return name;
     }
@@ -45,18 +48,9 @@ public class Platform {
     public List<Review> getReviews() {
         return reviews;
     }
-
+*/
     public void addReviews(Review review) {
         if (reviews == null) reviews = new ArrayList<>();
         this.reviews.add(review);
-    }
-
-    @Override
-    public String toString() {
-        return "Platform{" +
-                "name='" + name + '\'' +
-                ", vertical='" + vertical + '\'' +
-                ", status='" + status + '\'' +
-                '}' + '\n';
     }
 }

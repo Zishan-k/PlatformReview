@@ -1,21 +1,21 @@
 package modules.review;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
 import static constants.ReviewConstants.MAX_RATING;
 import static constants.ReviewConstants.MIN_RATING;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class Review {
-       private String userName;
+    private String userName;
     private String platformName;
     private int rating;
-
-    public Review(String user, String platform, int rating) {
-        this.userName = user;
-        this.platformName = platform;
-        this.rating = rating;
-    }
 
     public String getUsername() {
         return userName;

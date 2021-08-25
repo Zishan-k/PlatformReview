@@ -18,23 +18,26 @@ public class ApplicationService {
     private Map<User, User> users;
     private Map<Review, Review> reviews;
 
-    public void addPlatform(String pfName, String vertical, String platformStatus) {
+    public boolean addPlatform(String pfName, String vertical, String platformStatus) {
         if (platforms == null) platforms = new HashMap<>();
-        if (!isPlatformAlreadyAdded(platforms, pfName)) {
+        if (!isPlatformAlreadyAdded(platforms, pfName) && (!pfName.equals("") || !vertical.equals("") || !platformStatus.equals(""))) {
             Platform temp = new Platform(pfName, vertical, platformStatus);
             platforms.put(temp, temp);
-        } else System.out.println("Platform already added!!");
+            return true;
+        }
+        return false;
     }
 
     public void addUser(String uName) {
         if (users == null) users = new HashMap<>();
-        if (!isUserAlreadyAdded(users, uName)) {
+        if (!isUserAlreadyAdded(users, uName) && !uName.equals("")) {
             User temp = new User(uName);
             users.put(temp, temp);
-        } else System.out.println("User already added!!");
+        }
     }
 
-    public void addReview(String uName, String pfName, int rating) throws MultipleReviewsException, PlatformNotReadyException {
+    public void addReview(String uName, String pfName, int rating)
+            throws MultipleReviewsException, PlatformNotReadyException {
         if (reviews == null) reviews = new HashMap<>();
         User userObj = getUserObject(users, uName);
         Platform pfObj = getPlatformObject(platforms, pfName);
@@ -57,7 +60,7 @@ public class ApplicationService {
     }
 
     private void promoteUser(User userObj) {
-        if (userObj.getReviewedPlatforms().size() > UserType.CRITIC_THRESHOLD)
+        if (userObj.getReviewedPlatforms().size() >= UserType.CRITIC_THRESHOLD)
             userObj.setType(UserType.CRITIC);
     }
 
