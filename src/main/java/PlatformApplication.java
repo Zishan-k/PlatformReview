@@ -72,7 +72,7 @@ public class ApplicationService implements UserObserver {
         platformsList.sort((o1, o2) -> {
             int sum1 = getSum(userType, o1);
             int sum2 = getSum(userType, o2);
-            return sum1 - sum2;
+            return sum2 - sum1;
         });
         return platformsList;
     }

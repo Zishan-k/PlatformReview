@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.OptionalDouble;
+
 class PlatformApplicationTest {
     PlatformApplication as = new PlatformApplication();
     String[] platforms = {"p1", "p2", "p3", "p4"};

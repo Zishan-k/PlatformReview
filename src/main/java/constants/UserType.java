@@ -4,8 +4,7 @@ public enum UserType {
     VIEWER,
     CRITIC,
     EXPERT,
-    ADMIN,
-    DEFAULT
+    ADMIN
 
  /*   int CRITIC_THRESHOLD = 3;
     int EXPERT_THRESHOLD = 6;

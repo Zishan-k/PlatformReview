@@ -1,6 +1,7 @@
 package modules.platform;
 
 import constants.PlatformStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import modules.review.Review;
@@ -11,7 +12,8 @@ import java.util.Objects;
 
 @Data
 @Builder
-public class Platform extends MainPlatform {
+@AllArgsConstructor
+public class Platform {
     private String name;
     private String vertical;
     private PlatformStatus status;
