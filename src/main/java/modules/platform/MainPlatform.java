@@ -13,4 +13,5 @@ abstract public class MainPlatform {
     private String vertical;
     private String status;
     private List<Review> reviews;
+    MainPlatform(){}
 }

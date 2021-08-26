@@ -1,5 +1,6 @@
 package modules.platform;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import modules.review.Review;
@@ -10,7 +11,8 @@ import java.util.Objects;
 
 @Data
 @Builder
-public class Platform{
+@AllArgsConstructor
+public class Platform extends MainPlatform{
     private String name;
     private String vertical;
     private String status;
