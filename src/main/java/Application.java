@@ -9,7 +9,6 @@ public class Application {
         ApplicationService as = new ApplicationService();
         as.addPlatform("p1", "qq", PlatformStatus.RELEASED);
         as.addPlatform("p2", "qq", PlatformStatus.RELEASED);
-        as.addPlatform("p3", "qq", PlatformStatus.RELEASED);
 
         as.addUser("u1", UserType.DEFAULT);
         as.addUser("u2", UserType.CRITIC);

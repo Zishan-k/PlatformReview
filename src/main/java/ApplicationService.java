@@ -7,10 +7,12 @@ import lombok.NonNull;
 import modules.platform.Platform;
 import modules.review.Review;
 import modules.user.*;
+import org.javatuples.Pair;
 import util.PlatformReviewUtility;
 import util.UserObserver;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static util.PlatformReviewUtility.*;
 
@@ -34,18 +36,6 @@ public class ApplicationService implements UserObserver {
 
     public void addUser(@NonNull String userName, UserType userType) {
         if (!isUserAlreadyAdded(users, userName)) {
-            switch (userType) {
-                case CRITIC:
-                    users.add(new UserCritic(userName));
-                    break;
-                case EXPERT:
-                    break;
-                case ADMIN:
-                    break;
-                default:
-                    users.add(new UserViewer(userName));
-                    break;
-            }
 
         }
     }
@@ -54,9 +44,8 @@ public class ApplicationService implements UserObserver {
         User user = getUser(userName);
         Platform platform = getPlatform(platformName);
         if (platform.isReleased()) {
-            int rating1 = rating.getRating();
-            rating1 *= user.getRating();
-            Review review = new Review(user, platformName, rating1);
+            Pair<Integer, Integer> rating1 = rating.getRating(user.getType());
+            Review review = new Review(user, platformName, rating1.getValue0());
             if (!isReviewAlreadyAdded(reviews, review)) {
                 reviews.add(review);
                 platform.setReview(review);
@@ -70,9 +59,10 @@ public class ApplicationService implements UserObserver {
         }
     }
 
+
     //todo null pointer exception
     public List<Platform> sortPlatformsRatedBy(UserType userType) {
-        List<Platform> platformsList = new ArrayList<>(platforms);
+        List<Platform> platformsList = new ArrayList<>(platforms.stream().filter(platform -> platform.isReleased()).collect(Collectors.toList()));
         platformsList.sort((o1, o2) -> {
             int sum1 = getSum(userType, o1);
             int sum2 = getSum(userType, o2);
@@ -112,7 +102,7 @@ public class ApplicationService implements UserObserver {
 
     @Override
     public void promoteUserIfNeeded(User user) {
-        if (user.getReviewedPlatforms().size() >= new UserCritic().getThreshold()
+        /*if (user.getReviewedPlatforms().size() >= new UserCritic().getThreshold()
                 && user.getType().equals(UserType.VIEWER))
             user.setType(UserType.CRITIC);
         if (user.getReviewedPlatforms().size() >= new UserExpert().getThreshold()
@@ -120,6 +110,6 @@ public class ApplicationService implements UserObserver {
             user.setType(UserType.EXPERT);
         if (user.getReviewedPlatforms().size() >= new UserAdmin().getThreshold()
                 && user.getType().equals(UserType.EXPERT))
-            user.setType(UserType.ADMIN);
+            user.setType(UserType.ADMIN);*/
     }
 }
