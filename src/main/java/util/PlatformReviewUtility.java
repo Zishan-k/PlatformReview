@@ -52,23 +52,18 @@ public class MyUtil {
     }
 
     public static boolean isPlatformReleased(Platform pfObj) {
-        return pfObj.getStatus().equals(PlatformStatus.RELEASED.toString());
+        return pfObj.getStatus().equals(PlatformStatus.RELEASED);
     }
 
-    public static void promoteUserIfNeeded(User userObj) {
-        if (userObj.getReviewedPlatforms().size() >= UserType.CRITIC_THRESHOLD)
-            userObj.setType(UserType.CRITIC);
-    }
-
-    public static int sumList(List<Integer> list){
+    public static int sumList(List<Integer> list) {
         int sum = 0;
-        for(int i : list) sum+=i;
+        for (int i : list) sum += i;
         return sum;
     }
 
-    public static List<Integer> getOnlyRatings(List<Review> reviews){
+    public static List<Integer> getOnlyRatings(List<Review> reviews) {
         List<Integer> listOfRatings = new ArrayList<>();
-        for(Review r: reviews) listOfRatings.add(r.getRating());
+        for (Review r : reviews) listOfRatings.add(r.getRating());
         return listOfRatings;
     }
 

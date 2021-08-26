@@ -27,14 +27,25 @@ public class ApplicationService {
         return false;
     }
 
-    public boolean addUser(String uName) {
-        if (users == null) users = new HashSet<>();
-        if (!isUserAlreadyAdded(users, uName) && !uName.equals("")) {
-            User temp = new User(uName);
-            users.add(temp);
-            return true;
+    public void addUser(@NonNull String userName, UserType userType) {
+        if (!isUserAlreadyAdded(users, userName)) {
+            switch (userType) {
+                case VIEWER:
+                    users.add(new UserViewer(userName));
+                    break;
+                case CRITIC:
+                    users.add(new UserCritic(userName));
+                    break;
+                case EXPERT:
+                    break;
+                case ADMIN:
+                    break;
+                default:
+                    users.add(new UserViewer(userName));
+                    break;
+            }
+
         }
-        return false;
     }
 
     public boolean addReview(String uName, String pfName, int rating)
@@ -62,8 +73,8 @@ public class ApplicationService {
         return false;
     }
 
-    //todo
-    public List<Platform> sortPlatformsRatedBy(String userType) {
+    //todo null pointer exception
+    public List<Platform> sortPlatformsRatedBy(UserType userType) {
         List<Platform> platformsList = new ArrayList<>(platforms);
         platformsList.sort(new PlatformReviewsSorter());
         return platformsList;
@@ -94,5 +105,26 @@ public class ApplicationService {
 
     public List<Review> getAllReviewsOfPlatform(String platform) {
         return Objects.requireNonNull(getPlatformObject(platforms, platform)).getReviews();
+    }
+
+    public Platform getPlatform(String platformName) {
+        return PlatformReviewUtility.getPlatformObject(platforms, platformName).orElseThrow(() -> new PlatformNotReadyException("Platform not ready"));
+    }
+
+    private User getUser(String userName) {
+        return getUserObject(users, userName).orElseThrow(() -> new PlatformNotReadyException("User not exist"));
+    }
+
+    @Override
+    public void promoteUserIfNeeded(User user) {
+        if (user.getReviewedPlatforms().size() >= new UserCritic().getThreshold()
+                && user.getType().equals(UserType.VIEWER))
+            user.setType(UserType.CRITIC);
+        if (user.getReviewedPlatforms().size() >= new UserExpert().getThreshold()
+                && user.getType().equals(UserType.CRITIC))
+            user.setType(UserType.EXPERT);
+        if (user.getReviewedPlatforms().size() >= new UserAdmin().getThreshold()
+                && user.getType().equals(UserType.EXPERT))
+            user.setType(UserType.ADMIN);
     }
 }

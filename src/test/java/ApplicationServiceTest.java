@@ -1,24 +1,56 @@
 import constants.PlatformStatus;
+import constants.UserType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ApplicationServiceTest {
+class ApplicationServiceTest {
     ApplicationService as = new ApplicationService();
 
     @Test
-    public void addPlatformTest() {
-        Assertions.assertTrue(as.addPlatform("aa", "v1", PlatformStatus.RELEASED.toString()));
-        Assertions.assertTrue(as.addPlatform("bb", "v1", PlatformStatus.RELEASED.toString()));
-        Assertions.assertTrue(as.addPlatform("cc", "v1", PlatformStatus.RELEASED.toString()));
-        Assertions.assertTrue(as.addPlatform("dd", "v2", PlatformStatus.RELEASED.toString()));
-        Assertions.assertTrue(as.addPlatform("ee", "v2", PlatformStatus.NOT_RELEASED.toString()));
+    void addPlatform() {
+        Assertions.assertNotNull(as.addPlatform("platform1", "v1", PlatformStatus.RELEASED));
     }
 
     @Test
-    public void addPlatformTest1() {
-        Assertions.assertFalse(as.addPlatform("", "v1", PlatformStatus.RELEASED.toString()));
-        Assertions.assertFalse(as.addPlatform("", "", PlatformStatus.RELEASED.toString()));
-        Assertions.assertFalse(as.addPlatform("", "", ""));
+    void addUser() {
+
+    }
+
+    @Test
+    void addReview() {
+    }
+
+    @Test
+    void sortPlatformsRatedBy() {
+    }
+
+    @Test
+    void getAvgRatingOf() {
+    }
+
+    @Test
+    void getAllReviewsOfPlatform() {
+    }
+
+    @Test
+    void getPlatform() {
+    }
+
+    @Test
+    void promoteUserIfNeeded() {
+    }
+
+    @Test
+    void getPlatforms() {
+    }
+
+    @Test
+    void getUsers() {
+    }
+
+    @Test
+    void getReviews() {
     }
 }

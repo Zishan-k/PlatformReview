@@ -1,5 +1,6 @@
 package exceptions;
 
+
 public class MultipleReviewsException extends RuntimeException {
     String message;
 

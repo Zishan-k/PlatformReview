@@ -13,10 +13,12 @@ public class User {
     private String type;
     private HashSet<Platform> reviewedPlatforms;
 
-    public User(String name) {
+    public User(String name, UserType userType) {
         this.name = name;
-        this.type = UserType.VIEWER;
+        this.type = userType;
     }
+
+    public User() {}
 
     public void addReviewedPlatform(Platform platform) {
         if (reviewedPlatforms == null) reviewedPlatforms = new HashSet<>();
@@ -35,4 +37,5 @@ public class User {
     public int hashCode() {
         return Objects.hash(getName());
     }
+
 }

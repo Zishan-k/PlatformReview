@@ -27,19 +27,19 @@ public class Review {
         if (this == o) return true;
         if (!(o instanceof Review)) return false;
         Review review = (Review) o;
-        return this.userName.equals(review.userName) &&
+        return this.user.equals(review.user) &&
                 this.platformName.equals(review.platformName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.userName, this.platformName);
+        return Objects.hash(this.user, this.platformName);
     }
 
     @Override
     public String toString() {
         return "Review{" +
-                "userName='" + userName + '\'' +
+                "user=" + user.getName() +
                 ", platformName='" + platformName + '\'' +
                 ", rating=" + rating +
                 '}';
