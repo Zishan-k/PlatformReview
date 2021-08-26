@@ -13,7 +13,7 @@ public class Application {
         as.addPlatform("p3", "bb", PlatformStatus.RELEASED);
         as.addPlatform("p4", "bb", PlatformStatus.RELEASED);
 
-        as.addUser("u1", UserType.DEFAULT);
+        as.addUser("u1", UserType.VIEWER);
         as.addUser("u2", UserType.CRITIC);
         as.addUser("u3", UserType.CRITIC);
         as.addPlatform("mmm", "jkd", PlatformStatus.NOT_RELEASED);
@@ -28,8 +28,8 @@ public class Application {
         as.addReview("u2", "p4", Rating.FIVE);
         as.addReview("u3", "p4", Rating.FIVE);
 
-        /*System.out.println(as.getUsers());
-        System.out.println(as.getReviews());
+        System.out.println(as.getUsers());
+        //System.out.println(as.getReviews());
 
         System.out.println(as.sortPlatformsRatedBy(UserType.CRITIC, "vv"));
        */

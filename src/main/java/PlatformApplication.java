@@ -34,14 +34,16 @@ public class ApplicationService implements UserObserver {
         return platform;
     }
 
-    public void addUser(@NonNull String userName, UserType userType) {
+    public User addUser(@NonNull String userName, UserType userType) {
+        User user = null;
         if (!isUserAlreadyAdded(users, userName)) {
-            User user = User.builder()
+            user = User.builder()
                     .name(userName)
                     .type(userType)
                     .build();
             users.add(user);
         }
+        return user;
     }
 
     public void addReview(@NonNull String userName, @NonNull String platformName, @NonNull Rating rating) {
@@ -79,7 +81,7 @@ public class ApplicationService implements UserObserver {
         return o1.getReviews()
                 .stream()
                 .filter(platforms -> platforms.getUser().getType().equals(userType))
-                .map(platformsList1 -> platformsList1.getRating())
+                .map(Review::getRating)
                 .mapToInt(i -> i)
                 .sum();
     }
@@ -88,7 +90,7 @@ public class ApplicationService implements UserObserver {
     public OptionalDouble getAvgRatingOf(String platform) {
         return getPlatformObject(platforms, platform).orElseThrow().getReviews()
                 .stream()
-                .mapToInt(review -> review.getRating())
+                .mapToInt(Review::getRating)
                 .average();
     }
 
