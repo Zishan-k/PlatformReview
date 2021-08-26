@@ -1,30 +1,15 @@
 package modules.user;
 
 import constants.UserType;
+import lombok.Builder;
 import lombok.Data;
-import modules.platform.Platform;
-
-import java.util.HashSet;
 import java.util.Objects;
 
+@Builder
 @Data
-public abstract class User {
+public class User {
     private String name;
     private UserType type;
-    private HashSet<Platform> reviewedPlatforms = new HashSet<>();
-
-    public User(String name, UserType userType) {
-        this.name = name;
-        this.type = userType;
-    }
-
-    public User() {}
-
-    public abstract int getRating();
-
-    public void addReviewedPlatform(Platform platform) {
-        reviewedPlatforms.add(platform);
-    }
 
     @Override
     public boolean equals(Object o) {

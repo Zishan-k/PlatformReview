@@ -36,7 +36,11 @@ public class ApplicationService implements UserObserver {
 
     public void addUser(@NonNull String userName, UserType userType) {
         if (!isUserAlreadyAdded(users, userName)) {
-
+            User user = User.builder()
+                    .name(userName)
+                    .type(userType)
+                    .build();
+            users.add(user);
         }
     }
 
@@ -45,12 +49,11 @@ public class ApplicationService implements UserObserver {
         Platform platform = getPlatform(platformName);
         if (platform.isReleased()) {
             Pair<Integer, Integer> rating1 = rating.getRating(user.getType());
-            Review review = new Review(user, platformName, rating1.getValue0());
+            Review review = new Review(user, platformName, rating1.getValue1());
             if (!isReviewAlreadyAdded(reviews, review)) {
                 reviews.add(review);
                 platform.setReview(review);
-                user.addReviewedPlatform(platform);
-                promoteUserIfNeeded(user); // todo add observer design pattern
+                promoteUserIfNeeded(user);
             } else {
                 throw new MultipleReviewsException("Multiple reviews not allowed!");
             }
@@ -59,10 +62,11 @@ public class ApplicationService implements UserObserver {
         }
     }
 
-
-    //todo null pointer exception
-    public List<Platform> sortPlatformsRatedBy(UserType userType) {
-        List<Platform> platformsList = new ArrayList<>(platforms.stream().filter(platform -> platform.isReleased()).collect(Collectors.toList()));
+    public List<Platform> sortPlatformsRatedBy(UserType userType, String vertical) {
+        List<Platform> platformsList = new ArrayList<>(platforms.stream()
+                .filter(platform -> platform.isReleased())
+                .filter(platform -> platform.getVertical().equals(vertical))
+                .collect(Collectors.toList()));
         platformsList.sort((o1, o2) -> {
             int sum1 = getSum(userType, o1);
             int sum2 = getSum(userType, o2);
@@ -96,20 +100,34 @@ public class ApplicationService implements UserObserver {
         return PlatformReviewUtility.getPlatformObject(platforms, platformName).orElseThrow(() -> new PlatformNotReadyException("Platform not ready"));
     }
 
-    private User getUser(String userName) {
+    public User getUser(String userName) {
         return getUserObject(users, userName).orElseThrow(() -> new PlatformNotReadyException("User not exist"));
     }
 
     @Override
     public void promoteUserIfNeeded(User user) {
-        /*if (user.getReviewedPlatforms().size() >= new UserCritic().getThreshold()
-                && user.getType().equals(UserType.VIEWER))
-            user.setType(UserType.CRITIC);
-        if (user.getReviewedPlatforms().size() >= new UserExpert().getThreshold()
-                && user.getType().equals(UserType.CRITIC))
-            user.setType(UserType.EXPERT);
-        if (user.getReviewedPlatforms().size() >= new UserAdmin().getThreshold()
-                && user.getType().equals(UserType.EXPERT))
-            user.setType(UserType.ADMIN);*/
+        int totalReviews = 0;
+        /*for (Review review : reviews) {
+            if(review.getUser().getName().equals(user.getName())) totalReviews++;
+        }*/
+        /*int totalPlatformReviewed = platforms.stream()
+                .filter(platformInfo -> platformInfo.isReleased())
+                .mapToInt(platform -> {
+                    long count = platform.getReviews()
+                            .stream()
+
+                            .filter(review -> review.getUser().getName().equalsIgnoreCase(user.getName()))
+                            .count();
+                    return Integer.valueOf(String.valueOf(count))*/
+
+
+
+        /*Rating rating = null;
+        if(user.getType().equals(UserType.VIEWER)
+                && totalReviews >= rating.getRating(UserType.CRITIC).getValue0())
+        user.setType(UserType.CRITIC);
+        if(user.getType().equals(UserType.CRITIC)
+        && totalReviews >= rating.getRating(UserType.EXPERT).getValue0())
+            user.setType(UserType.EXPERT);*/
     }
 }
