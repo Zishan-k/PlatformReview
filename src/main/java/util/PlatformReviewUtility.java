@@ -2,7 +2,6 @@ package util;
 
 import constants.PlatformStatus;
 import constants.ReviewConstants;
-import constants.UserType;
 import modules.platform.Platform;
 import modules.review.Review;
 import modules.user.User;
