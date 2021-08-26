@@ -35,9 +35,6 @@ public class ApplicationService implements UserObserver {
     public void addUser(@NonNull String userName, UserType userType) {
         if (!isUserAlreadyAdded(users, userName)) {
             switch (userType) {
-                case VIEWER:
-                    users.add(new UserViewer(userName));
-                    break;
                 case CRITIC:
                     users.add(new UserCritic(userName));
                     break;
