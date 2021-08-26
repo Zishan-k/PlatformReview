@@ -1,4 +1,5 @@
 import constants.PlatformStatus;
+import constants.Rating;
 import constants.UserType;
 import modules.platform.Platform;
 import modules.review.Review;

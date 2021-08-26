@@ -1,13 +1,10 @@
 import constants.PlatformStatus;
 import constants.Rating;
 import constants.UserType;
-import exceptions.*;
-import modules.user.User;
-import util.PlatformReviewUtility;
 
 public class Application {
     public static void main(String[] args) {
-        ApplicationService as = new ApplicationService();
+        PlatformApplication as = new PlatformApplication();
         as.addPlatform("p1", "vv", PlatformStatus.RELEASED);
         as.addPlatform("p2", "vv", PlatformStatus.RELEASED);
         as.addPlatform("p3", "bb", PlatformStatus.RELEASED);
@@ -32,7 +29,5 @@ public class Application {
         //System.out.println(as.getReviews());
 
         System.out.println(as.sortPlatformsRatedBy(UserType.CRITIC, "vv"));
-       */
-        as.promoteUserIfNeeded(as.getUser("u1"));
     }
 }

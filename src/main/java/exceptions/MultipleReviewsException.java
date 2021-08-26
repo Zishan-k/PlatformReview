@@ -1,14 +1,10 @@
 package exceptions;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public class MultipleReviewsException extends RuntimeException {
-    String message;
-
-    public MultipleReviewsException(String message) {
-        this.message = message;
-    }
-
-    public void printMessage() {
-        System.out.println(message);
-    }
+    private final String message;
 }

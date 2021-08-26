@@ -17,19 +17,10 @@ public class Platform {
     private String name;
     private String vertical;
     private PlatformStatus status;
-    private List<Review> reviews;
+    private final List<Review> reviews = new ArrayList<>();
 
-    public Platform(String name, String vertical, PlatformStatus status, List<Review> reviews) {
-        super(name, vertical, status, reviews);
-        this.name = name;
-        this.vertical = vertical;
-        this.status = status;
-        this.reviews = reviews;
-    }
-
-    public void setReview(Review review) {
-        if (reviews == null) reviews = new ArrayList<>();
-        this.reviews.add(review);
+    public void addReview(Review review) {
+        reviews.add(review);
     }
 
     @Override

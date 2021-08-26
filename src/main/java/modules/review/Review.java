@@ -7,9 +7,6 @@ import modules.user.User;
 
 import java.util.Objects;
 
-import static constants.ReviewConstants.MAX_RATING;
-import static constants.ReviewConstants.MIN_RATING;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,11 +14,6 @@ public class Review {
     private User user;
     private String platformName;
     private Integer rating;
-
-    public void setRating(int rating) {
-        if (rating > MIN_RATING && rating < MAX_RATING)
-            this.rating = rating;
-    }
 
     @Override
     public boolean equals(Object o) {

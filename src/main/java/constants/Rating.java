@@ -28,6 +28,5 @@ public enum Rating {
             default:
                 throw new RuntimeException("User type not supported");
         }
-        return Pair.with(0,0);
     }
 }
