@@ -1,30 +1,35 @@
+import constants.PlatformStatus;
+import constants.Rating;
+import constants.UserType;
 import exceptions.*;
+import lombok.Getter;
+import lombok.NonNull;
 import modules.platform.Platform;
-import modules.platform.PlatformReviewsSorter;
 import modules.review.Review;
-import modules.user.User;
+import modules.user.*;
+import util.PlatformReviewUtility;
+import util.UserObserver;
 
 import java.util.*;
 
-import static util.MyUtil.*;
-import static constants.UserType.*;
+import static util.PlatformReviewUtility.*;
 
-public class ApplicationService {
-    private Set<Platform> platforms;
-    private Set<User> users;
-    private Set<Review> reviews;
+@Getter
+public class ApplicationService implements UserObserver {
+    private Set<Platform> platforms = new HashSet<>();
+    private Set<User> users = new HashSet<>();
+    private Set<Review> reviews = new HashSet<>();
 
-    public boolean addPlatform(String pfName, String vertical, String platformStatus) {
-        if (platforms == null) platforms = new HashSet<>();
-        if (!isPlatformAlreadyAdded(platforms, pfName, vertical) && (!pfName.equals("") && !vertical.equals("") && !platformStatus.equals(""))) {
-            Platform temp = Platform.builder()
+    public Platform addPlatform(@NonNull String pfName, @NonNull String vertical, @NonNull PlatformStatus platformStatus) {
+        Platform platform = null;
+        if (!isPlatformAlreadyAdded(platforms, pfName, vertical)) {
+            platform = Platform.builder()
                     .name(pfName)
                     .vertical(vertical)
                     .status(platformStatus).build();
-            platforms.add(temp);
-            return true;
+            platforms.add(platform);
         }
-        return false;
+        return platform;
     }
 
     public void addUser(@NonNull String userName, UserType userType) {
@@ -48,63 +53,56 @@ public class ApplicationService {
         }
     }
 
-    public boolean addReview(String uName, String pfName, int rating)
-            throws MultipleReviewsException, PlatformNotReadyException {
-        if (!uName.equals("") || !pfName.equals("") || isRatingValid(rating)) {
-            if (reviews == null) reviews = new HashSet<>();
-            User userObj = getUserObject(users, uName);
-            Platform pfObj = getPlatformObject(platforms, pfName);
-            if (userObj != null && pfObj != null && isPlatformReleased(pfObj)) {
-                if (userObj.getType().equals(CRITIC)) rating *= CRITIC_VALUE;//todo
-                Review review = new Review(uName, pfName, rating);
-                if (!isReviewAlreadyAdded(reviews, review)) {
-                    reviews.add(review);
-                    pfObj.setReview(review);
-                    userObj.addReviewedPlatform(pfObj);
-                    promoteUserIfNeeded(userObj);
-                    return true;
-                } else {
-                    throw new MultipleReviewsException("Multiple reviews not allowed!");
-                }
+    public void addReview(@NonNull String userName, @NonNull String platformName, @NonNull Rating rating) {
+        User user = getUser(userName);
+        Platform platform = getPlatform(platformName);
+        if (platform.isReleased()) {
+            int rating1 = rating.getRating();
+            rating1 *= user.getRating();
+            Review review = new Review(user, platformName, rating1);
+            if (!isReviewAlreadyAdded(reviews, review)) {
+                reviews.add(review);
+                platform.setReview(review);
+                user.addReviewedPlatform(platform);
+                promoteUserIfNeeded(user); // todo add observer design pattern
             } else {
-                throw new PlatformNotReadyException("Platform yet to be released!");
+                throw new MultipleReviewsException("Multiple reviews not allowed!");
             }
+        } else {
+            throw new PlatformNotReadyException("Platform yet to be released!");
         }
-        return false;
     }
 
     //todo null pointer exception
     public List<Platform> sortPlatformsRatedBy(UserType userType) {
         List<Platform> platformsList = new ArrayList<>(platforms);
-        platformsList.sort(new PlatformReviewsSorter());
+        platformsList.sort((o1, o2) -> {
+            int sum1 = getSum(userType, o1);
+            int sum2 = getSum(userType, o2);
+            return sum1 - sum2;
+        });
         return platformsList;
     }
 
-    public Set<Platform> getAllPlatforms() {
-        return platforms;
+    private int getSum(UserType userType, Platform o1) {
+        return o1.getReviews()
+                .stream()
+                .filter(platforms -> platforms.getUser().getType().equals(userType))
+                .map(platformsList1 -> platformsList1.getRating())
+                .mapToInt(i -> i)
+                .sum();
     }
 
-    public Set<User> getAllUsers() {
-        return users;
-    }
 
-    public Set<Review> getAllReviews() {
-        return reviews;
-    }
-
-    public float getAvgRatingOf(String platform) {
-        int temp = 0, count = 0;
-        Platform pfObj = getPlatformObject(platforms, platform);
-        for (Review review : Objects.requireNonNull(pfObj).getReviews()) {
-            temp += review.getRating();
-            count++;
-        }
-        count = (count == 0) ? 1 : count;
-        return (float) temp / count;
+    public OptionalDouble getAvgRatingOf(String platform) {
+        return getPlatformObject(platforms, platform).orElseThrow().getReviews()
+                .stream()
+                .mapToInt(review -> review.getRating())
+                .average();
     }
 
     public List<Review> getAllReviewsOfPlatform(String platform) {
-        return Objects.requireNonNull(getPlatformObject(platforms, platform)).getReviews();
+        return Objects.requireNonNull(getPlatformObject(platforms, platform)).orElseThrow().getReviews();
     }
 
     public Platform getPlatform(String platformName) {

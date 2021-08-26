@@ -9,14 +9,14 @@ import modules.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-public class MyUtil {
+public class PlatformReviewUtility {
+
     public static boolean isPlatformAlreadyAdded(Set<Platform> platformSet, String name, String vertical) {
-        for (Platform temp : platformSet) {
-            if (temp.getName().equals(name) && temp.getVertical().equals(vertical)) return true;
-        }
-        return false;
+        return platformSet.stream()
+                .anyMatch(platform -> platform.getName().equals(name) && platform.getVertical().equals(vertical));
     }
 
     public static boolean isUserAlreadyAdded(Set<User> userSet, String name) {
@@ -33,18 +33,16 @@ public class MyUtil {
         return false;
     }
 
-    public static User getUserObject(Set<User> set, String name) {
-        for (User temp : set) {
-            if (temp.getName().equals(name)) return temp;
-        }
-        return null;
+    public static Optional<User> getUserObject(Set<User> users, String name) {
+        return users.stream()
+                .filter(user -> user.getName().equalsIgnoreCase(name))
+                .findFirst();
     }
 
-    public static Platform getPlatformObject(Set<Platform> set, String name) {
-        for (Platform temp : set) {
-            if (temp.getName().equals(name)) return temp;
-        }
-        return null;
+    public static Optional<Platform> getPlatformObject(Set<Platform> platforms, String name) {
+        return platforms.stream()
+                .filter(platform -> platform.getName().equalsIgnoreCase(name))
+                .findFirst();
     }
 
     public static boolean isRatingValid(int rating) {

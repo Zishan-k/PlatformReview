@@ -1,6 +1,6 @@
 package modules.platform;
 
-import lombok.AllArgsConstructor;
+import constants.PlatformStatus;
 import lombok.Builder;
 import lombok.Data;
 import modules.review.Review;
@@ -11,12 +11,19 @@ import java.util.Objects;
 
 @Data
 @Builder
-@AllArgsConstructor
-public class Platform extends MainPlatform{
+public class Platform extends MainPlatform {
     private String name;
     private String vertical;
-    private String status;
+    private PlatformStatus status;
     private List<Review> reviews;
+
+    public Platform(String name, String vertical, PlatformStatus status, List<Review> reviews) {
+        super(name, vertical, status, reviews);
+        this.name = name;
+        this.vertical = vertical;
+        this.status = status;
+        this.reviews = reviews;
+    }
 
     public void setReview(Review review) {
         if (reviews == null) reviews = new ArrayList<>();
@@ -29,6 +36,10 @@ public class Platform extends MainPlatform{
         if (!(o instanceof Platform)) return false;
         Platform platform = (Platform) o;
         return getName().equals(platform.getName()) && getVertical().equals(platform.getVertical());
+    }
+
+    public boolean isReleased() {
+        return status.equals(PlatformStatus.RELEASED);
     }
 
     @Override

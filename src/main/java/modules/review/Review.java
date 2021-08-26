@@ -3,6 +3,7 @@ package modules.review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import modules.user.User;
 
 import java.util.Objects;
 
@@ -13,9 +14,9 @@ import static constants.ReviewConstants.MIN_RATING;
 @Setter
 @AllArgsConstructor
 public class Review {
-    private String userName;
+    private User user;
     private String platformName;
-    private int rating;
+    private Integer rating;
 
     public void setRating(int rating) {
         if (rating > MIN_RATING && rating < MAX_RATING)

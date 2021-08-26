@@ -8,10 +8,10 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Data
-public class User {
+public abstract class User {
     private String name;
-    private String type;
-    private HashSet<Platform> reviewedPlatforms;
+    private UserType type;
+    private HashSet<Platform> reviewedPlatforms = new HashSet<>();
 
     public User(String name, UserType userType) {
         this.name = name;
@@ -20,8 +20,9 @@ public class User {
 
     public User() {}
 
+    public abstract int getRating();
+
     public void addReviewedPlatform(Platform platform) {
-        if (reviewedPlatforms == null) reviewedPlatforms = new HashSet<>();
         reviewedPlatforms.add(platform);
     }
 
