@@ -21,28 +21,24 @@ public class PlatformApplication {
     private Set<User> users = new HashSet<>();
 
 
-    public Platform addPlatform(@NonNull String pfName, @NonNull String vertical, @NonNull PlatformStatus platformStatus) {
-        Platform platform = null;
+    public void addPlatform(@NonNull String pfName, @NonNull String vertical, @NonNull PlatformStatus platformStatus) {
         if (!isPlatformAlreadyAdded(platforms, pfName, vertical)) {
-            platform = Platform.builder()
+            Platform platform = Platform.builder()
                     .name(pfName)
                     .vertical(vertical)
                     .status(platformStatus).build();
             platforms.add(platform);
         }
-        return platform;
     }
 
-    public User addUser(@NonNull String userName, UserType userType) {
-        User user = null;
+    public void addUser(@NonNull String userName, UserType userType) {
         if (!isUserAlreadyAdded(users, userName)) {
-            user = User.builder()
+            User user = User.builder()
                     .name(userName)
                     .type(userType)
                     .build();
             users.add(user);
         }
-        return user;
     }
 
     public void addReview(@NonNull String userName, @NonNull String platformName, @NonNull Rating rating) {
@@ -130,7 +126,7 @@ public class PlatformApplication {
                             .stream()
                             .filter(review -> review.getUser().getName().equalsIgnoreCase(user.getName()))
                             .count();
-                    return Integer.valueOf(String.valueOf(count));
+                    return Integer.parseInt(String.valueOf(count));
                 }).sum();
     }
 

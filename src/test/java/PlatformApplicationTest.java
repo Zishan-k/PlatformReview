@@ -44,16 +44,6 @@ class PlatformApplicationTest {
     }
 
     @Test
-    void addPlatform(){
-        Assertions.assertNotNull(as.getPlatform(platforms[0]));
-    }
-
-    @Test
-    void addUser(){
-        Assertions.assertNotNull(as.getUser(users[0]));
-    }
-
-    @Test
     void getPlatform() {
         Assertions.assertNotNull(as.getPlatform(platforms[0]));
     }
@@ -105,7 +95,7 @@ class PlatformApplicationTest {
     @Test
     void getAvgRatingOf() {
         OptionalDouble avg = as.getAvgRatingOf(platforms[0]);
-        Assertions.assertEquals(8.0, avg.getAsDouble());
+        Assertions.assertEquals(8.0, avg.isPresent()?avg.getAsDouble():0);
     }
 
     @Test
