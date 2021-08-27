@@ -44,6 +44,16 @@ class PlatformApplicationTest {
     }
 
     @Test
+    void addPlatform(){
+        Assertions.assertNotNull(as.getPlatform(platforms[0]));
+    }
+
+    @Test
+    void addUser(){
+        Assertions.assertNotNull(as.getUser(users[0]));
+    }
+
+    @Test
     void getPlatform() {
         Assertions.assertNotNull(as.getPlatform(platforms[0]));
     }
