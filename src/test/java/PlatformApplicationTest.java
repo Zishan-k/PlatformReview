@@ -29,8 +29,8 @@ class PlatformApplicationTest {
         as.addPlatform(platforms[5], verticals[0], PlatformStatus.NOT_RELEASED);
 
         as.addUser(users[0], UserType.VIEWER);
-        as.addUser(users[1], UserType.VIEWER);
-        as.addUser(users[2], UserType.VIEWER);
+        as.addUser(users[1], UserType.ADMIN);
+        as.addUser(users[2], UserType.EXPERT);
         as.addUser(users[3], UserType.CRITIC);
 
         as.addReview(users[0], platforms[2], Rating.TWO);
@@ -133,7 +133,7 @@ class PlatformApplicationTest {
 
     private int getSum(List<Review> reviews){
         return reviews.stream()
-                .mapToInt(review-> review.getRating())
+                .mapToInt(Review::getRating)
                 .sum();
     }
 }

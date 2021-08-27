@@ -3,6 +3,7 @@ package modules.review;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import modules.user.User;
 
 import java.util.Objects;
@@ -10,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class Review {
     private User user;
     private String platformName;
@@ -29,12 +31,4 @@ public class Review {
         return Objects.hash(this.user, this.platformName);
     }
 
-    @Override
-    public String toString() {
-        return "Review{" +
-                "user=" + user.getName() +
-                ", platformName='" + platformName + '\'' +
-                ", rating=" + rating +
-                '}';
-    }
 }
