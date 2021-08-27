@@ -39,9 +39,10 @@ public class PlatformReviewUtility {
 
     public static Optional<Platform> getPlatformObject(Set<Platform> platforms, String name) {
         return platforms.stream()
-                .filter(platform -> platform.isReleased())
+                .filter(Platform::isReleased)
                 .filter(platform -> platform.getName().equalsIgnoreCase(name))
                 .findFirst();
     }
+
 
 }

@@ -134,4 +134,13 @@ public class PlatformApplication {
                 }).sum();
     }
 
+    public boolean updatePlatformStatus(String platformName, PlatformStatus to){
+        Optional<Platform> platform = platforms.stream()
+                .filter(platform1 -> platform1.getName().equals(platformName))
+                .findFirst();
+        platform.get().setStatus(to);
+        return platform.get().getStatus().equals(to);
+    }
+
+
 }
